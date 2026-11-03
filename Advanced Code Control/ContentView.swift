@@ -4,6 +4,7 @@ struct ContentView: View {
     @StateObject private var store = ItemStore()
     @State private var cameraOn = true
     @State private var screenVisible = true
+    @State private var showAddItem = false
 
     var body: some View {
         NavigationView {
@@ -17,10 +18,15 @@ struct ContentView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     NavigationLink(destination: HistoryView(store: store)) {
-                        Label("History", systemImage: "clock.arrow.circlepath")
+                        Image(systemName: "clock.arrow.circlepath")
                     }
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    Button {
+                        showAddItem = true
+                    } label: {
+                        Image(systemName: "plus")
+                    }
                     Button("New session") {
                         store.startNewSession()
                     }
@@ -35,6 +41,9 @@ struct ContentView: View {
                 screenVisible = false
                 store.isScanning = false
             }
+            .sheet(isPresented: $showAddItem) {
+                AddItemView(store: store)
+            }
         }
         .navigationViewStyle(.stack)
     }
@@ -42,7 +51,8 @@ struct ContentView: View {
     // MARK: Camera box
     private var scannerSection: some View {
         ZStack {
-            if cameraOn && screenVisible {
+            // the camera is switched off while the Add item screen is open
+            if cameraOn && screenVisible && !showAddItem {
                 ScannerView { code in
                     store.handleScan(code)
                 }
@@ -137,9 +147,7 @@ struct ContentView: View {
                 List {
                     ForEach(store.scanned) { item in
                         HStack(spacing: 12) {
-                            Image(item.photo)
-                                .resizable()
-                                .scaledToFill()
+                            ItemImage(photo: item.photo, photoFile: item.photoFile)
                                 .frame(width: 56, height: 56)
                                 .clipped()
                                 .cornerRadius(8)
@@ -176,7 +184,7 @@ struct ContentView: View {
 }
 
 
-// Version 1.0.1 Working Perfectly
+// Version 1.0.2 Working Perfectly
 
 #Preview {
     ContentView()

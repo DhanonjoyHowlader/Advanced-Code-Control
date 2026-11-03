@@ -1,4 +1,4 @@
 [
-  { "barcode": "200000296", "name": "Sample Item One", "photo": "photo1" },
-  { "barcode": "5018374363237", "name": "Sample Item Two", "photo": "photo2" }
+  { "barcode": "200000296", "name": "Walkers", "photo": "photo1" },
+  { "barcode": "5018374363237", "name": "Sardines", "photo": "photo2" }
 ]

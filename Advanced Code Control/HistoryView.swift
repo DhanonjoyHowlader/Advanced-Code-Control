@@ -64,9 +64,7 @@ struct SessionDetailView: View {
     var body: some View {
         List(session.entries) { entry in
             HStack(spacing: 12) {
-                Image(entry.photo)
-                    .resizable()
-                    .scaledToFill()
+                ItemImage(photo: entry.photo, photoFile: entry.photoFile)
                     .frame(width: 56, height: 56)
                     .clipped()
                     .cornerRadius(8)
