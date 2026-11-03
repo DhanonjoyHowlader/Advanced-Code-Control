@@ -46,6 +46,10 @@ final class ScannerViewController: UIViewController, AVCaptureMetadataOutputObje
         super.viewDidLayoutSubviews()
         previewLayer?.frame = view.bounds
     }
+    
+    deinit {
+        session.stopRunning()
+    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
